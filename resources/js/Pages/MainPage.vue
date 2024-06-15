@@ -1,10 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Welcome from '@/Components/Welcome.vue';
+import { defineProps } from 'vue'
+
+defineProps({
+    userinfo: {
+        required: true
+    }
+})
 </script>
 
 <template>
-    <AppLayout title="Dashboard">
+    <AppLayout title="MainPage">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Dashboard
@@ -14,7 +21,8 @@ import Welcome from '@/Components/Welcome.vue';
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <Welcome />
+                    <!-- <Welcome /> -->
+                    {{ userinfo }}
                 </div>
             </div>
         </div>

@@ -27,7 +27,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
     ];
 
     /**
@@ -63,6 +62,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // public function rol()
+    // {
+    //     return $this->belongsToMany(Role::class, 'id_rol');
+    //     //return $this->belongsToMany(Role::class);
+    // }
 
     public function rol()
     {
