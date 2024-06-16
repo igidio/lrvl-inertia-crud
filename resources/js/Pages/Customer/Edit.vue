@@ -4,6 +4,7 @@ import { reactive, ref, computed } from 'vue';
 import { useForm, router, Link } from '@inertiajs/vue3';
 import { z } from 'zod';
 import ErrorList from '@/Components/ErrorList.vue'
+import { formatDate } from '@/helpers';
 
 const onlyLettersRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]*$/;
 
@@ -12,6 +13,13 @@ const minDate = computed(() => {
     const today = new Date();
     return new Date(today.setFullYear(today.getFullYear() - minAge));
 });
+
+const props = defineProps({
+    customer: {
+        type: Object,
+        required: true,
+    }
+})
 
 const formSchema = z.object({
     nombres: z.string({ invalid_type_error: 'El campo está vacío' }).min(1, 'Los nombres son requeridos').regex(onlyLettersRegex, 'El nombre no es válido'),
@@ -25,20 +33,20 @@ const formSchema = z.object({
 
 const date = ref(new Date());
 const form = ref({
-    nombres: null,
-    apellidos: null,
-    ci: null,
-    email: null,
-    telefono: null,
-    direccion: null,
-    fecha_nacimiento: null,
+    nombres: props.customer.nombres,
+    apellidos: props.customer.apellidos,
+    ci: props.customer.ci,
+    email: props.customer.email,
+    telefono: props.customer.telefono,
+    direccion: props.customer.direccion,
+    fecha_nacimiento: new Date(props.customer.fecha_nacimiento),
 });
 
 const errors = ref({});
 const submit = async () => {
     validate();
     if (Object.keys(errors.value).length !== 0) return;
-    await router.post('/customer', form.value);
+    router.put(`/customer/${props.customer.id}`, form.value);
 }
 
 const validate = () => {
@@ -76,15 +84,20 @@ const dateFormated = computed(() => {
 
     return `${day}/${month}/${year}`;
 });
+
 </script>
 
 <template>
-    <AppLayout title="Crear Cliente">
+    <AppLayout title="Modificar Cliente">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Crear Cliente
+                Modificar Cliente
             </h2>
         </template>
+
+        {{ Object.keys(errors).length !== 0 }}
+
+        {{ customer }}
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -111,21 +124,25 @@ const dateFormated = computed(() => {
                                     </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="ci">CI:</label>
-                                    <input id="ci" type="number" class="form-control" v-model="form.ci"
-                                        @input="validateOne('ci', form.ci)">
-                                    <ErrorList :errors="errors.ci" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="telefono">Teléfono:</label>
-                                    <input for="telefono" type="number" class="form-control" v-model="form.telefono"
-                                        @input="validateOne('telefono', form.telefono)">
-                                    <ErrorList :errors="errors.telefono" />
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <label for="ci">CI:</label>
+                                        <input id="ci" type="number" class="form-control" v-model="form.ci"
+                                            @input="validateOne('ci', form.ci)">
+                                        <ErrorList :errors="errors.ci" />
+                                    </div>
+                                    <div class="col">
+                                        <label for="telefono">Teléfono:</label>
+                                        <input for="telefono" type="number" class="form-control" v-model="form.telefono"
+                                            @input="validateOne('telefono', form.telefono)">
+                                        <ErrorList :errors="errors.telefono" />
+                                    </div>
+
+
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="direccion">Dirección</label>
+                                    <label for="direccion">Dirección:</label>
                                     <input type="text" id="direccion" class="form-control" v-model="form.direccion"
                                         @input="validateOne('direccion', form.direccion)">
                                     <ErrorList :errors="errors.direccion" />
@@ -133,14 +150,14 @@ const dateFormated = computed(() => {
 
                                 <div class="mb-3 row">
                                     <div class="col-8">
-                                        <label for="email">e-mail</label>
+                                        <label for="email">e-mail:</label>
                                         <input type="text" id="email" class="form-control" v-model="form.email"
                                             @input="validateOne('email', form.email)">
                                         <ErrorList :errors="errors.email" />
                                     </div>
-                                    <div class="col">
-                                        <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                                        <VDatePicker v-model="form.fecha_nacimiento" @change="console.log('cambio')">
+                                    <div class="col-4">
+                                        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                                        <VDatePicker v-model="form.fecha_nacimiento">
                                             <template #default="{ togglePopover }">
                                                 <button id="fecha_nacimiento" type="button"
                                                     class="px-3 py-2 bg-blue-500 text-sm text-white font-semibold rounded-md"
@@ -150,14 +167,8 @@ const dateFormated = computed(() => {
                                             </template>
                                         </VDatePicker>
                                         <ErrorList :errors="errors.fecha_nacimiento" />
-
                                     </div>
                                 </div>
-
-
-
-
-
 
                             </div>
                             <div class="card-footer">
@@ -165,7 +176,7 @@ const dateFormated = computed(() => {
                                     <Link :href="route('customer.index')" class="btn btn-secondary col-2 mr-2">
                                     Cancelar
                                     </Link>
-                                    <button class="btn btn-primary col-2"
+                                    <button class="btn btn-primary col-2" type="submit"
                                         :disabled="Object.keys(errors).length !== 0">Enviar</button>
                                 </div>
                             </div>

@@ -310,13 +310,10 @@ const logout = () => {
 
             <!-- Page Content -->
             <main>
-                <div v-if="$page.props.flash.status">
-                    <button @click="$page.props.flash.status = false">
-                        Cerrar
-                    </button>
-                    <p>{{ $page.props.flash.status }}</p>
-                </div>
 
+                <div v-if="$page.props.flash.status" class="alert alert-success">
+                    {{ $page.props.flash.status }}
+                </div>
                 <div v-if="$page.props.flash.error" class="alert alert-danger">
                     {{ $page.props.flash.error }}
                 </div>

@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { defineProps } from 'vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 
 defineProps({
     customers: {
@@ -10,6 +10,11 @@ defineProps({
     }
 })
 
+const destroy = (id) => {
+    if (confirm('Desea Eliminar?')) {
+        router.delete(route('customer.destroy', id));
+    }
+};
 </script>
 
 <template>
@@ -54,8 +59,11 @@ defineProps({
                                 <td>{{ customer.fecha_nacimiento }}</td>
                                 <td>{{ customer.telefono }}</td>
                                 <td>
+                                    <Link :href="route('customer.edit', { id: customer.id })">
                                     <button type="button" class="btn btn-warning">Modificar</button>
-                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                    </Link>
+                                    <button type="button" class="btn btn-danger"
+                                        @click="destroy(customer.id)">Eliminar</button>
                                 </td>
                             </tr>
                         </tbody>

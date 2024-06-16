@@ -61,9 +61,8 @@ class CustomerController extends Controller
         //Customer::create($validatedData);
         try {
             $customer = new Customer($validatedData);
-            $request->session()->flash('error', 'Se ha producido un error.');
             $customer->save();
-            return redirect()->route('dashboard')->with('status', 'Usuario guardado con éxito');
+            return redirect()->route('customer.index')->with('message', 'Cliente guardado con éxito');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -74,30 +73,62 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $customer = Customer::findOrFail($id);
+        return Inertia::render('Customer/Edit', compact('customer'));
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Customer $customer)
     {
-        //
+        $data = $request->all();
+        $data['fecha_nacimiento'] = transformToValidDate($data['fecha_nacimiento']);
+        $data['nombres'] = capitalizeWords($data['nombres']);
+        $data['apellidos'] = capitalizeWords($data['apellidos']);
+        $request->merge(['fecha_nacimiento' => $data['fecha_nacimiento']]);
+        $request->merge(['nombres' => $data['nombres']]);
+        $request->merge(['apellidos' => $data['apellidos']]);
+
+        $validatedData = $request->validate([
+            // TODO:  validar datos, ej. 255
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'ci' => 'required',
+            'email' => 'required',
+            'telefono' => 'required',
+            'direccion' => 'required',
+            'fecha_nacimiento' => 'required',
+        ]);
+
+        //Customer::create($validatedData);
+        try {
+            $customer->update($validatedData);
+            return redirect()->route('customer.index')->with('status', 'Cliente actualizado con éxito');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Customer $customer)
     {
-        //
+        try {
+            $customer->delete();
+            return redirect()->route('customer.index')->with('status', 'Cliente eliminado con éxito');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }
