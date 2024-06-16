@@ -27,7 +27,7 @@ class CustomerFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
             'telefono' => $this->faker->unique()->numberBetween(70000000, 79999999),
             'direccion' => $this->faker->address,
-            'fecha_nacimiento' => $this->faker->date(),
+            'fecha_nacimiento' => $this->faker->dateTimeBetween('-60 year', '-18 year'),
             'es_activo' => 1,
         ];
     }
