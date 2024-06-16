@@ -1,11 +1,17 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { reactive, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import { useForm, router } from '@inertiajs/vue3';
 import { z } from 'zod';
 import ErrorList from '@/Components/ErrorList.vue'
 
-const onlyLettersRegex = /^[a-zA-Z]*$/;
+const onlyLettersRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]*$/;
+
+const minAge = 18;
+const minDate = computed(() => {
+    const today = new Date();
+    return new Date(today.setFullYear(today.getFullYear() - minAge));
+});
 
 const formSchema = z.object({
     nombres: z.string({ invalid_type_error: 'El campo está vacío' }).min(1, 'Los nombres son requeridos').regex(onlyLettersRegex, 'El nombre no es válido'),
@@ -17,7 +23,7 @@ const formSchema = z.object({
     fecha_nacimiento: z.date({ invalid_type_error: 'El campo está vacío' }),
 });
 
-
+const date = ref(new Date());
 const form = ref({
     nombres: null,
     apellidos: null,
@@ -25,14 +31,14 @@ const form = ref({
     email: null,
     telefono: null,
     direccion: null,
-    fecha_nacimiento: null,
+    fecha_nacimiento: new Date(),
 });
 
 const errors = ref({});
 const submit = async () => {
     validate();
-    if (errors.value) return;
-    router.post('customer', form.value);
+    if (Object.keys(errors.value).length !== 0) return;
+    await router.post('/customer', form.value);
 }
 
 const validate = () => {
@@ -66,6 +72,8 @@ const validateOne = (field, value) => {
                 Crear Cliente
             </h2>
         </template>
+
+        {{ Object.keys(errors).length !== 0 }}
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -120,10 +128,19 @@ const validateOne = (field, value) => {
                                 </div>
                                 <div class="mb-3">
                                     <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                                    <input type="text" id="fecha_nacimiento" class="form-control"
-                                        v-model="form.fecha_nacimiento">
+
+                                    <VDatePicker v-model="form.fecha_nacimiento" mode="date" :max-date="minDate">
+                                        <template v-slot="{ inputValue, inputEvents }">
+                                            <input id="fecha_nacimiento" class="form-control" type="text"
+                                                :value="inputValue" v-on="inputEvents">
+                                            {{ inputValue }}
+                                        </template>
+                                    </VDatePicker>
                                     <ErrorList :errors="errors.fecha_nacimiento" />
                                 </div>
+
+                                {{ date }}
+
 
 
                             </div>

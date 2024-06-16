@@ -39,6 +39,14 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+        $data = $request->all();
+        $data['fecha_nacimiento'] = transformToValidDate($data['fecha_nacimiento']);
+        $data['nombres'] = capitalizeWords($data['nombres']);
+        $data['apellidos'] = capitalizeWords($data['apellidos']);
+        $request->merge(['fecha_nacimiento' => $data['fecha_nacimiento']]);
+        $request->merge(['nombres' => $data['nombres']]);
+        $request->merge(['apellidos' => $data['apellidos']]);
+
         $validatedData = $request->validate([
             // TODO:  validar datos, ej. 255
             'nombres' => 'required',
@@ -49,11 +57,16 @@ class CustomerController extends Controller
             'direccion' => 'required',
             'fecha_nacimiento' => 'required',
         ]);
-        echo '$validatedData';
+
         //Customer::create($validatedData);
-        $customer = new Customer($validatedData);
-        $customer->save();
-        //return redirect()->route('dashboard');
+        try {
+            $customer = new Customer($validatedData);
+            $request->session()->flash('error', 'Se ha producido un error.');
+            $customer->save();
+            return redirect()->route('dashboard')->with('status', 'Usuario guardado con éxito');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**

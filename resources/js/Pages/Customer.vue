@@ -1,6 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { defineProps } from 'vue';
+import { Link } from '@inertiajs/vue3';
 
 defineProps({
     customers: {
@@ -20,8 +21,13 @@ defineProps({
         </template>
 
 
+
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <Link :href="route('customer.create')" class="d-grid gap-2 mb-4">
+                <button class="btn btn-primary">Crear nuevo cliente</button>
+                </Link>
+
                 <div class="bg-white shadow-xl sm:rounded-lg overflow-x-auto">
 
                     <!-- <div class="overflox-x-"> -->
@@ -58,30 +64,10 @@ defineProps({
 
             </div>
         </div>
+
+
         <!-- </div> -->
     </AppLayout>
-
-    <div>
-        <form @submit.prevent="submit">
-            <label for="nombres">Nombres</label>
-            <input type="text" v-model="form.nombres">
-            <label for="nombres">apellidos</label>
-            <input type="text" v-model="form.apellidos">
-            <label for="ci">CI</label>
-            <input type="text" v-model="form.ci">
-            <label for="Nombre">telefono</label>
-            <input type="text" v-model="form.telefono">
-            <label for="direccion">Dirección</label>
-            <input type="text" id="direccion" v-model="form.direccion">
-            <label for="email">Dirección</label>
-            <input type="text" id="email" v-model="form.email">
-            <label for="fecha_nacimiento">fecha nacimiento</label>
-            <input type="text" id="fecha_nacimiento" v-model="form.fecha_nacimiento">
-            <button>Enviar</button>
-        </form>
-    </div>
-
-    <hr>
 
 
 </template>
