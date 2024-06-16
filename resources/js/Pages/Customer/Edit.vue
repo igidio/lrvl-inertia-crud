@@ -35,9 +35,9 @@ const date = ref(new Date());
 const form = ref({
     nombres: props.customer.nombres,
     apellidos: props.customer.apellidos,
-    ci: props.customer.ci,
+    ci: props.customer.ci * 1,
     email: props.customer.email,
-    telefono: props.customer.telefono,
+    telefono: props.customer.telefono * 1,
     direccion: props.customer.direccion,
     fecha_nacimiento: new Date(props.customer.fecha_nacimiento),
 });

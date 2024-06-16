@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { reactive, ref, computed } from 'vue';
-import { useForm, router, Link } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
+import { router, Link } from '@inertiajs/vue3';
 import { z } from 'zod';
 import ErrorList from '@/Components/ErrorList.vue'
 
@@ -176,10 +176,7 @@ const dateFormated = computed(() => {
 
             </div>
         </div>
-        <!-- </div> -->
     </AppLayout>
-
-    <hr>
 
 
 </template>

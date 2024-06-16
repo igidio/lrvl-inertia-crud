@@ -33,7 +33,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Service/Create');
     }
 
     /**
@@ -41,7 +41,20 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nombre' => 'required',
+            'descripcion' => 'required',
+            'duracion' => 'required',
+            'precio' => 'required',
+        ]);
+
+        try {
+            $service = new Service($validatedData);
+            $service->save();
+            return redirect()->route('service.index')->with('status', 'Servicio guardado con éxito');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -57,15 +70,29 @@ class ServiceController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $service = Service::findOrFail($id);
+        return Inertia::render('Service/Edit', compact('service'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Service $service)
     {
-        //
+        $validatedData = $request->validate([
+            'nombre' => 'required',
+            'descripcion' => 'required',
+            'duracion' => 'required',
+            'precio' => 'required',
+        ]);
+
+        try {
+            //$service = new Service($validatedData);
+            $service->update($validatedData);
+            return redirect()->route('service.index')->with('status', 'Servicio actualizado con éxito');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**

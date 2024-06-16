@@ -29,7 +29,7 @@ const destroy = (id) => {
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <Link :href="route('customer.create')" class="d-grid gap-2 mb-4">
+                <Link :href="route('service.create')" class="d-grid gap-2 mb-4">
                 <button class="btn btn-primary">Crear nuevo servicio</button>
                 </Link>
 
@@ -55,7 +55,7 @@ const destroy = (id) => {
                                 <td>{{ service.duracion }}</td>
                                 <td>{{ service.precio }}</td>
                                 <td>
-                                    <Link :href="route('customer.edit', { id: service.id })">
+                                    <Link :href="route('service.edit', { id: service.id })">
                                     <button type="button" class="btn btn-warning">Modificar</button>
                                     </Link>
                                     <button type="button" class="btn btn-danger"
