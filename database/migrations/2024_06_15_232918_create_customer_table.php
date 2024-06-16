@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('nombres');
             $table->string('apellidos');
-            $table->string('ci');
+            $table->bigInteger('ci');
             $table->string('email')->unique();
-            $table->string('telefono')->unique();
-            $table->string('direccion')->unique();
-            $table->string('fecha_nacimiento')->date();
-            $table->string('es_activo')->boolean();
+            $table->bigInteger('telefono')->unique();
+            $table->string('direccion');
+            $table->date('fecha_nacimiento');
+            $table->boolean('es_activo')->default(true);
             $table->timestamps();
         });
     }

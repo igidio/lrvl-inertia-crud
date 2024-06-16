@@ -48,9 +48,16 @@ const logout = () => {
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                <!-- <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
-                                </NavLink>
+                                </NavLink> -->
+                                <!-- <Link href="/">Home</Link> -->
+                                <Link :href="route('customer.index')">Home</Link>
+                                <!-- <Link href="/customer">Customer</Link> -->
+
+                                <!-- <NavLink :href="route('customer')" :active="route().current('customer')">
+                                    Customer
+                                </NavLink> -->
                             </div>
                         </div>
 
