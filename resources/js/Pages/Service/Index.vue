@@ -4,7 +4,7 @@ import { defineProps } from 'vue';
 import { Link, router } from '@inertiajs/vue3';
 
 defineProps({
-    customers: {
+    services: {
         type: Array,
         required: true,
     }
@@ -12,16 +12,16 @@ defineProps({
 
 const destroy = (id) => {
     if (confirm('Desea Eliminar?')) {
-        router.delete(route('customer.destroy', id));
+        router.delete(route('service.destroy', id));
     }
 };
 </script>
 
 <template>
-    <AppLayout title="Clientes">
+    <AppLayout title="Servicios">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Clientes
+                Servicios
             </h2>
         </template>
 
@@ -30,7 +30,7 @@ const destroy = (id) => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <Link :href="route('customer.create')" class="d-grid gap-2 mb-4">
-                <button class="btn btn-primary">Crear nuevo cliente</button>
+                <button class="btn btn-primary">Crear nuevo servicio</button>
                 </Link>
 
                 <div class="bg-white shadow-xl sm:rounded-lg overflow-x-auto">
@@ -40,31 +40,26 @@ const destroy = (id) => {
                         class="table-auto whitespace-nowrap border border-separate border-spacing-4; min-w-full whitespace-nowrap">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nombre Completo</th>
-                                <th scope="col">CI</th>
-                                <th scope="col">e-mail</th>
-                                <th scope="col">Dirección</th>
-                                <th scope="col">F. de Nacimiento</th>
-                                <th scope="col">Teléfono</th>
+                                <!-- <th scope="col">#</th> -->
+                                <th scope="col">Nombre de Servicio</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Duración</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="customer in customers">
-                                <th scope="row">1</th>
-                                <td>{{ customer.nombre }}</td>
-                                <td>{{ customer.ci }}</td>
-                                <td>{{ customer.email }}</td>
-                                <td>{{ customer.direccion }}</td>
-                                <td>{{ customer.fecha_nacimiento }}</td>
-                                <td>{{ customer.telefono }}</td>
+                            <tr v-for="service in services">
+                                <!-- <td scope="row">1</td> -->
+                                <td>{{ service.nombre }}</td>
+                                <td>{{ service.descripcion }}</td>
+                                <td>{{ service.duracion }}</td>
+                                <td>{{ service.precio }}</td>
                                 <td>
-                                    <Link :href="route('customer.edit', { id: customer.id })">
+                                    <Link :href="route('customer.edit', { id: service.id })">
                                     <button type="button" class="btn btn-warning">Modificar</button>
                                     </Link>
                                     <button type="button" class="btn btn-danger"
-                                        @click="destroy(customer.id)">Eliminar</button>
+                                        @click="destroy(service.id)">Eliminar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -77,6 +72,5 @@ const destroy = (id) => {
 
         <!-- </div> -->
     </AppLayout>
-
 
 </template>

@@ -24,4 +24,5 @@ Route::middleware([
   ])->name('dashboard');
   //Route::resource('notes', App\Http\Controllers\NoteController::class);
   Route::resource('customer', App\Http\Controllers\CustomerController::class);
+  Route::resource('service', App\Http\Controllers\ServiceController::class);
 });
