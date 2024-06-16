@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -20,7 +19,7 @@ return new class extends Migration
             $table->bigInteger('telefono')->unique();
             $table->string('direccion');
             $table->date('fecha_nacimiento');
-            $table->boolean('es_activo')->default(true);
+            $table->boolean('es_activo')->default(true)->nullable();
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -10,8 +11,19 @@ class CustomerController extends Controller
 
     public function index()
     {
-        $data = ['holaaaaa'];
-        return Inertia::render('Customer', $data);
+        return Inertia::render('Customer', [
+            'customers' => Customer::all()->map(function ($modelo) {
+                return [
+                    'id' => $modelo->id,
+                    'nombre' => getFullName($modelo->nombres, $modelo->apellidos),
+                    'ci' => $modelo->ci,
+                    'email' => $modelo->email,
+                    'telefono' => $modelo->telefono,
+                    'direccion' => $modelo->direccion,
+                    'fecha_nacimiento' => getTraditionalDate($modelo->fecha_nacimiento),
+                ];
+            })
+        ]);
     }
 
     /**
@@ -19,7 +31,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Customer/Create');
     }
 
     /**
@@ -27,7 +39,21 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            // TODO:  validar datos, ej. 255
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'ci' => 'required',
+            'email' => 'required',
+            'telefono' => 'required',
+            'direccion' => 'required',
+            'fecha_nacimiento' => 'required',
+        ]);
+        echo '$validatedData';
+        //Customer::create($validatedData);
+        $customer = new Customer($validatedData);
+        $customer->save();
+        //return redirect()->route('dashboard');
     }
 
     /**
