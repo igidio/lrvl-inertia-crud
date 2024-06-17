@@ -21,4 +21,8 @@ class Customer extends Model
 
     use HasFactory;
 
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'id_cliente');
+    }
 }

@@ -17,5 +17,14 @@ class Appointment extends Model
         'notas',
     ];
 
+    public function cliente()
+    {
+        return $this->belongsTo(Customer::class, 'id_cliente');
+    }
+    public function servicio()
+    {
+        return $this->belongsTo(Service::class, 'id_servicio');
+    }
+
     use HasFactory;
 }

@@ -16,4 +16,9 @@ class Service extends Model
         'precio',
     ];
     use HasFactory;
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'id_servicio');
+    }
 }
