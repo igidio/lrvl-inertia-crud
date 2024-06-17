@@ -43,27 +43,7 @@ const calendarApp = createCalendar({
     views: [viewDay, viewWeek, viewMonthGrid, viewMonthAgenda],
     defaultView: viewMonthGrid.name,
 
-    //events: props.appointments,
-    events: [
-        {
-            id: 1,
-            title: 'Coffee with John',
-            start: '2024-06-04 10:05',
-            end: '2024-06-04 10:35',
-        },
-        {
-            id: 2,
-            title: 'Ski trip',
-            start: '2024-06-05 10:05',
-            end: '2024-06-05 12:05',
-        },
-        {
-            id: 3,
-            title: 'Ski trip',
-            start: '2024-06-06 10:05',
-            end: '2024-06-06 12:05',
-        },
-    ],
+    events: props.appointments,
 
     locale: 'es-ES',
     callbacks: {
@@ -73,23 +53,23 @@ const calendarApp = createCalendar({
 
         onEventClick(calendarEvent) {
             console.log(calendarEvent);
-            // selected.value = {
-            //     id: calendarEvent.id,
-            //     titulo: calendarEvent.title,
-            //     inicio: calendarEvent.start,
-            //     fin: calendarEvent.end,
-            //     tiempo: getOnlyHours(calendarEvent.start, calendarEvent.end),
-            //     cliente: {
-            //         nombre: calendarEvent.cliente.nombres + ' ' + calendarEvent.cliente.apellidos,
-            //         telefono: calendarEvent.cliente.telefono,
-            //         email: calendarEvent.cliente.email,
-            //         direccion: calendarEvent.cliente.direccion,
-            //         ci: calendarEvent.cliente.ci,
-            //     },
-            //     descripcion: calendarEvent.servicio.descripcion,
-            //     notas: calendarEvent.notas,
-            //     precio: calendarEvent.servicio.precio + ' Bs.',
-            // }
+            selected.value = {
+                id: calendarEvent.id,
+                titulo: calendarEvent.title,
+                inicio: calendarEvent.start,
+                fin: calendarEvent.end,
+                tiempo: getOnlyHours(calendarEvent.start, calendarEvent.end),
+                cliente: {
+                    nombre: calendarEvent.cliente.nombres + ' ' + calendarEvent.cliente.apellidos,
+                    telefono: calendarEvent.cliente.telefono,
+                    email: calendarEvent.cliente.email,
+                    direccion: calendarEvent.cliente.direccion,
+                    ci: calendarEvent.cliente.ci,
+                },
+                descripcion: calendarEvent.servicio.descripcion,
+                notas: calendarEvent.notas,
+                precio: calendarEvent.servicio.precio + ' Bs.',
+            }
         },
     },
 })
