@@ -150,7 +150,7 @@ watch(
                             </div>
                             <div class="card-footer">
                                 <div class="row justify-content-end m-2">
-                                    <Link :href="route('customer.index')" class="btn btn-secondary col-2 mr-2">
+                                    <Link :href="route('appointment.index')" class="btn btn-secondary col-2 mr-2">
                                     Cancelar
                                     </Link>
                                     <button class="btn btn-primary col-2" :disabled="!validate">Enviar</button>
