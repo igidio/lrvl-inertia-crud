@@ -42,7 +42,7 @@ const logout = () => {
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
+                                <Link :href="route('appointment.index')" class="text-reset text-decoration-none">
                                 <ApplicationMark class="block h-9 w-auto" />
                                 </Link>
                             </div>
@@ -53,9 +53,20 @@ const logout = () => {
                                     Dashboard
                                 </NavLink> -->
                                 <!-- <Link href="/">Home</Link> -->
-                                <Link :href="route('customer.index')">Clientes</Link>
+                                <NavLink :href="route('appointment.index')"
+                                    :active="route().current('appointment.index')">
+                                    Citas
+                                </NavLink>
+                                <NavLink :href="route('customer.index')" :active="route().current('customer.index')">
+                                    Clientes
+                                </NavLink>
+                                <NavLink :href="route('service.index')" :active="route().current('service.index')">
+                                    Servicios
+                                </NavLink>
+
+                                <!-- 
                                 <Link :href="route('service.index')">Servicios</Link>
-                                <Link :href="route('appointment.index')">Citas</Link>
+                                <Link :href="route('appointment.index')">Citas</Link> -->
                                 <!-- <Link href="/customer">Customer</Link> -->
 
                                 <!-- <NavLink :href="route('customer')" :active="route().current('customer')">
@@ -164,24 +175,24 @@ const logout = () => {
                                     <template #content>
                                         <!-- Account Management -->
                                         <div class="block px-4 py-2 text-xs text-gray-400">
-                                            Manage Account
+                                            Administrar cuenta
                                         </div>
 
                                         <DropdownLink :href="route('profile.show')">
-                                            Profile
+                                            Perfil
                                         </DropdownLink>
 
-                                        <DropdownLink v-if="$page.props.jetstream.hasApiFeatures"
+                                        <!-- <DropdownLink v-if="$page.props.jetstream.hasApiFeatures"
                                             :href="route('api-tokens.index')">
                                             API Tokens
-                                        </DropdownLink>
+                                        </DropdownLink> -->
 
                                         <div class="border-t border-gray-200" />
 
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
                                             <DropdownLink as="button">
-                                                Log Out
+                                                Cerrar sesión
                                             </DropdownLink>
                                         </form>
                                     </template>
@@ -238,18 +249,18 @@ const logout = () => {
 
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.show')" :active="route().current('profile.show')">
-                                Profile
+                                Perfil
                             </ResponsiveNavLink>
 
-                            <ResponsiveNavLink v-if="$page.props.jetstream.hasApiFeatures"
+                            <!-- <ResponsiveNavLink v-if="$page.props.jetstream.hasApiFeatures"
                                 :href="route('api-tokens.index')" :active="route().current('api-tokens.index')">
                                 API Tokens
-                            </ResponsiveNavLink>
+                            </ResponsiveNavLink> -->
 
                             <!-- Authentication -->
                             <form method="POST" @submit.prevent="logout">
                                 <ResponsiveNavLink as="button">
-                                    Log Out
+                                    Cerrar sesión
                                 </ResponsiveNavLink>
                             </form>
 
@@ -257,12 +268,12 @@ const logout = () => {
                             <template v-if="$page.props.jetstream.hasTeamFeatures">
                                 <div class="border-t border-gray-200" />
 
-                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                <!-- <div class="block px-4 py-2 text-xs text-gray-400">
                                     Manage Team
-                                </div>
+                                </div> -->
 
                                 <!-- Team Settings -->
-                                <ResponsiveNavLink :href="route('teams.show', $page.props.auth.user.current_team)"
+                                <!-- <ResponsiveNavLink :href="route('teams.show', $page.props.auth.user.current_team)"
                                     :active="route().current('teams.show')">
                                     Team Settings
                                 </ResponsiveNavLink>
@@ -270,7 +281,7 @@ const logout = () => {
                                 <ResponsiveNavLink v-if="$page.props.jetstream.canCreateTeams"
                                     :href="route('teams.create')" :active="route().current('teams.create')">
                                     Create New Team
-                                </ResponsiveNavLink>
+                                </ResponsiveNavLink> -->
 
                                 <!-- Team Switcher -->
                                 <template v-if="$page.props.auth.user.all_teams.length > 1">
