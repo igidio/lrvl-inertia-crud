@@ -131,7 +131,7 @@ class AppointmentController extends Controller
             $recurso->save();
             //            $appointment->update($validatedData);
             //return redirect()->route('appointment.index')->with('status', 'Cita actualizada con éxito');
-            return redirect()->route('appointment.index')->with('status', $validatedData);
+            return redirect()->route('appointment.index')->with('status', 'Cita cambiada de lugar con éxito');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

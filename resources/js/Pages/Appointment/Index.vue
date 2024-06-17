@@ -10,7 +10,6 @@ import {
 import '@schedule-x/theme-default/dist/index.css'
 import { createDragAndDropPlugin } from '@schedule-x/drag-and-drop'
 import { createEventsServicePlugin } from '@schedule-x/events-service'
-import { createEventModalPlugin } from '@schedule-x/event-modal'
 import { defineProps, ref } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link, router } from '@inertiajs/vue3';
@@ -41,11 +40,30 @@ const eventsServicePlugin = createEventsServicePlugin();
 
 const calendarApp = createCalendar({
     plugins: [createDragAndDropPlugin(), eventsServicePlugin, /*createEventModalPlugin()*/],
-    //selectedDate: '2024-16-15',
     views: [viewDay, viewWeek, viewMonthGrid, viewMonthAgenda],
     defaultView: viewMonthGrid.name,
 
-    events: props.appointments,
+    //events: props.appointments,
+    events: [
+        {
+            id: 1,
+            title: 'Coffee with John',
+            start: '2024-06-04 10:05',
+            end: '2024-06-04 10:35',
+        },
+        {
+            id: 2,
+            title: 'Ski trip',
+            start: '2024-06-05 10:05',
+            end: '2024-06-05 12:05',
+        },
+        {
+            id: 3,
+            title: 'Ski trip',
+            start: '2024-06-06 10:05',
+            end: '2024-06-06 12:05',
+        },
+    ],
 
     locale: 'es-ES',
     callbacks: {
@@ -54,23 +72,24 @@ const calendarApp = createCalendar({
         },
 
         onEventClick(calendarEvent) {
-            selected.value = {
-                id: calendarEvent.id,
-                titulo: calendarEvent.title,
-                inicio: calendarEvent.start,
-                fin: calendarEvent.end,
-                tiempo: getOnlyHours(calendarEvent.start, calendarEvent.end),
-                cliente: {
-                    nombre: calendarEvent.cliente.nombres + ' ' + calendarEvent.cliente.apellidos,
-                    telefono: calendarEvent.cliente.telefono,
-                    email: calendarEvent.cliente.email,
-                    direccion: calendarEvent.cliente.direccion,
-                    ci: calendarEvent.cliente.ci,
-                },
-                descripcion: calendarEvent.servicio.descripcion,
-                notas: calendarEvent.notas,
-                precio: calendarEvent.servicio.precio + ' Bs.',
-            }
+            console.log(calendarEvent);
+            // selected.value = {
+            //     id: calendarEvent.id,
+            //     titulo: calendarEvent.title,
+            //     inicio: calendarEvent.start,
+            //     fin: calendarEvent.end,
+            //     tiempo: getOnlyHours(calendarEvent.start, calendarEvent.end),
+            //     cliente: {
+            //         nombre: calendarEvent.cliente.nombres + ' ' + calendarEvent.cliente.apellidos,
+            //         telefono: calendarEvent.cliente.telefono,
+            //         email: calendarEvent.cliente.email,
+            //         direccion: calendarEvent.cliente.direccion,
+            //         ci: calendarEvent.cliente.ci,
+            //     },
+            //     descripcion: calendarEvent.servicio.descripcion,
+            //     notas: calendarEvent.notas,
+            //     precio: calendarEvent.servicio.precio + ' Bs.',
+            // }
         },
     },
 })
@@ -133,7 +152,7 @@ const resetSelected = () => {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
                 <Link :href="route('appointment.create')" class="d-grid gap-2 mb-4">
-                <button class="btn btn-primary">Crear nuevo servicio</button>
+                <button class="btn btn-primary">Crear nueva cita</button>
                 </Link>
 
                 <div class="bg-white shadow-xl sm:rounded-lg">
