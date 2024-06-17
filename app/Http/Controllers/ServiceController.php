@@ -62,7 +62,20 @@ class ServiceController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $service = Service::findOrFail($id);
+        $appointments = $service->appointments;
+        $customers = $appointments->map(function ($modelo) {
+            return [
+                'id_cliente' => $modelo->cliente->id,
+                'fecha' => $modelo->fecha,
+                'hora' => $modelo->hora,
+                'notas' => $modelo->notas,
+            ];
+        });
+        return Inertia::render('Service/Show', [
+            'service' => $service
+        ]);
+        //$appointments = $customer->appointments;
     }
 
     /**

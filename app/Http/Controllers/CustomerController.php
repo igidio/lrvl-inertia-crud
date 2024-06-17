@@ -74,28 +74,10 @@ class CustomerController extends Controller
     public function show($id)
     {
         $customer = Customer::findOrFail($id);
-        //return Inertia::render('Customer/Show', compact('customer'));
         $appointments = $customer->appointments;
 
-        $services = $appointments;
-
-
         return Inertia::render('Customer/Show', [
-            // 'customer' => Customer::findOrFail($id)->map(function ($modelo) {
-            //     return [
-            //         'id' => $modelo->id,
-            //         'nombre' => getFullName($modelo->nombres, $modelo->apellidos),
-            //         'ci' => $modelo->ci,
-            //         'email' => $modelo->email,
-            //         'telefono' => $modelo->telefono,
-            //         'direccion' => $modelo->direccion,
-            //         'fecha_nacimiento' => getTraditionalDate($modelo->fecha_nacimiento),
-            //         'citas' => $modelo->appointments,
-            //     ];
-            // })
             'customer' => $customer,
-            //'appointments' => Customer::findOrFail($id)->appointments,
-            //'appointments' => $appointments
             'appointments' => $appointments->map(function ($modelo) {
                 return [
                     'id_servicio' => $modelo->servicio->id,
@@ -105,8 +87,6 @@ class CustomerController extends Controller
                     'notas' => $modelo->notas,
                 ];
             })
-            //'services' => $services,
-            //'cliente' => $services,
         ]);
     }
 
