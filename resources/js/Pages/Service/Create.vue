@@ -1,6 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { router, Link } from '@inertiajs/vue3';
 import { z } from 'zod';
 import ErrorList from '@/Components/ErrorList.vue'

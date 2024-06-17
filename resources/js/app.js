@@ -21,7 +21,17 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
-            .use(VCalendar, {})
+            .use(VCalendar, {
+                locales: {
+                    'pt-PT': {
+                        firstDayOfWeek: 1,
+                        masks: {
+                            L: 'YYYY-MM-DD',
+                            // ...optional `title`, `weekdays`, `navMonths`, etc
+                        }
+                    }
+                }
+            })
             .mount(el);
     },
     progress: {

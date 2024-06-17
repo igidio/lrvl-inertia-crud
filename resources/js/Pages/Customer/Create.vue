@@ -8,7 +8,7 @@ import ErrorList from '@/Components/ErrorList.vue'
 const onlyLettersRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]*$/;
 
 const minAge = 18;
-const minDate = computed(() => {
+const maxDate = computed(() => {
     const today = new Date();
     return new Date(today.setFullYear(today.getFullYear() - minAge));
 });
@@ -88,7 +88,7 @@ const dateFormated = computed(() => {
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white shadow-xl sm:rounded-lg overflow-x-auto">
+                <div class="bg-white shadow-xl sm:rounded-lg">
 
                     <form @submit.prevent="submit">
                         <div class="card">
@@ -139,12 +139,11 @@ const dateFormated = computed(() => {
                                         <ErrorList :errors="errors.email" />
                                     </div>
                                     <div class="col">
-                                        <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                                        <VDatePicker v-model="form.fecha_nacimiento" @change="console.log('cambio')">
+                                        <label for="fecha_nacimiento" class="row">Fecha de Nacimiento</label>
+                                        <VDatePicker v-model="form.fecha_nacimiento" :max-date="maxDate" locale="es">
                                             <template #default="{ togglePopover }">
                                                 <button id="fecha_nacimiento" type="button"
-                                                    class="px-3 py-2 bg-blue-500 text-sm text-white font-semibold rounded-md"
-                                                    @click="togglePopover">
+                                                    class="btn btn-primary mt-2 row" @click="togglePopover">
                                                     {{ dateFormated }}
                                                 </button>
                                             </template>
