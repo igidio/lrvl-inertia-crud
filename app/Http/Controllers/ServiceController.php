@@ -73,7 +73,7 @@ class ServiceController extends Controller
             ];
         });
         return Inertia::render('Service/Show', [
-            'service' => $service
+            'servicio' => $service
         ]);
         //$appointments = $customer->appointments;
     }

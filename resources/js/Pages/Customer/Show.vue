@@ -1,6 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { reactive, ref, computed } from 'vue';
+import { Link, router } from '@inertiajs/vue3';
 
 const props = defineProps({
     customer: {
@@ -64,7 +65,9 @@ const props = defineProps({
                         <div class="card mb-4">
                             <div class="card-body">
                                 <!-- <h5 class="card-title">Servicio #{{ appointment.id }}</h5> -->
-                                <h5>{{ appointment.titulo }}</h5>
+                                <Link :href="route('service.show', { id: appointment.id_servicio })">
+                                {{ appointment.titulo }}
+                                </Link>
                                 <p class="card-text"><strong>Fecha:</strong> {{ appointment.fecha }}</p>
                                 <p class="card-text"><strong>Hora:</strong> {{ appointment.hora }}</p>
                                 <p class="card-text"><strong>Notas:</strong> {{ appointment.notas }}</p>

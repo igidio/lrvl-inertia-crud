@@ -40,7 +40,6 @@ const destroy = (id) => {
                         class="table-auto whitespace-nowrap border border-separate border-spacing-4; min-w-full whitespace-nowrap">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
                                 <th scope="col">Nombre Completo</th>
                                 <th scope="col">CI</th>
                                 <th scope="col">e-mail</th>
@@ -52,8 +51,11 @@ const destroy = (id) => {
                         </thead>
                         <tbody>
                             <tr v-for="customer in customers">
-                                <th scope="row">1</th>
-                                <td>{{ customer.nombre }}</td>
+                                <td scope="row">
+                                    <Link :href="route('customer.show', { id: customer.id })">
+                                    {{ customer.nombre }}
+                                    </Link>
+                                </td>
                                 <td>{{ customer.ci }}</td>
                                 <td>{{ customer.email }}</td>
                                 <td>{{ customer.direccion }}</td>

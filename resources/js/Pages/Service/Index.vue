@@ -41,16 +41,24 @@ const destroy = (id) => {
                         <thead>
                             <tr>
                                 <!-- <th scope="col">#</th> -->
+
                                 <th scope="col">Nombre de Servicio</th>
                                 <th scope="col">Descripción</th>
                                 <th scope="col">Duración</th>
+                                <th scope="col">Precio</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="service in services">
                                 <!-- <td scope="row">1</td> -->
-                                <td>{{ service.nombre }}</td>
+
+                                <td>
+
+                                    <Link :href="route('service.show', { id: service.id })">
+                                    {{ service.nombre }}
+                                    </Link>
+                                </td>
                                 <td>{{ service.descripcion }}</td>
                                 <td>{{ service.duracion }}</td>
                                 <td>{{ service.precio }}</td>

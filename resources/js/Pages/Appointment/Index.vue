@@ -34,6 +34,7 @@ const selected = ref({
     descripcion: null,
     precio: null,
     notas: null,
+    id_servicio: null,
 })
 
 const eventsServicePlugin = createEventsServicePlugin();
@@ -65,10 +66,13 @@ const calendarApp = createCalendar({
                     email: calendarEvent.cliente.email,
                     direccion: calendarEvent.cliente.direccion,
                     ci: calendarEvent.cliente.ci,
+                    id: calendarEvent.cliente.id,
                 },
                 descripcion: calendarEvent.servicio.descripcion,
                 notas: calendarEvent.notas,
                 precio: calendarEvent.servicio.precio + ' Bs.',
+                id_servicio: calendarEvent.servicio.id,
+
             }
         },
     },
@@ -116,6 +120,7 @@ const resetSelected = () => {
         descripcion: null,
         precio: null,
         notas: null,
+        id_servicio: null,
     }
 }
 </script>
@@ -145,7 +150,10 @@ const resetSelected = () => {
 
                 <div class="card mt-3" v-if="selected.titulo">
                     <div class="card-body">
+
+                        <Link :href="route('service.show', { id: selected.id_servicio })">
                         <h5 class="card-title">{{ selected.titulo }}</h5>
+                        </Link>
                         <div v-if="selected.notas" class="mb-3">
                             <b>Notas</b>
 
@@ -162,7 +170,11 @@ const resetSelected = () => {
 
                         <b class="card-title">Información de cliente</b>
                         <div class="d-flex flex-column">
-                            <span><b class="mr-3">Cliente:</b>{{ selected.cliente.nombre }}</span>
+                            <span><b class="mr-3">Cliente:</b>
+                                <Link :href="route('customer.show', { id: selected.cliente.id })">
+                                {{ selected.cliente.nombre }}
+                                </Link>
+                            </span>
                             <span><b class="mr-3">Teléfono:</b>{{ selected.cliente.telefono }}</span>
                             <span><b class="mr-3">Dirección:</b>{{ selected.cliente.direccion }}</span>
                             <span><b class="mr-3">Dirección:</b>{{ selected.cliente.email }}</span>
