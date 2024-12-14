@@ -64,7 +64,7 @@ const logout = () => {
                                     Servicios
                                 </NavLink>
 
-                                <!-- 
+                                <!--
                                 <Link :href="route('service.index')">Servicios</Link>
                                 <Link :href="route('appointment.index')">Citas</Link> -->
                                 <!-- <Link href="/customer">Customer</Link> -->
@@ -171,7 +171,7 @@ const logout = () => {
                                             </button>
                                         </span>
                                     </template>
-
+º
                                     <template #content>
                                         <!-- Account Management -->
                                         <div class="block px-4 py-2 text-xs text-gray-400">

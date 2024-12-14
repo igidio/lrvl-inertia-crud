@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
         $this->call(ServiceSeeder::class);
         $this->call(AppointmentSeeder::class);
         User::factory()->create([
-            'name' => 'Juan David',
-            'email' => 'juandavid@mail.com',
-            'password' => 'JUANDAVID',
+            'name' => 'Claudia',
+            'email' => 'claudia@mail.com',
+            'password' => 'PASSWORD',
             'id_rol' => '1'
         ]);
     }
