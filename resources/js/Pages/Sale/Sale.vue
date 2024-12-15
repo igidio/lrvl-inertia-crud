@@ -28,9 +28,9 @@
                 </thead>
                 <tbody>
                 <tr v-for="sale in sales" :key="sale.id">
-                  <td>{{ sale.cliente }}</td>
-                  <td>{{ sale.fecha }}</td>
-                  <td>{{ sale.total }} Bs.</td>
+                  <td @click="go_to_sale(sale.id)" class="cursor-pointer">{{ sale.cliente }}</td>
+                  <td @click="go_to_sale(sale.id)" class="cursor-pointer">{{ sale.fecha }}</td>
+                  <td @click="go_to_sale(sale.id)" class="cursor-pointer">{{ sale.total }} Bs.</td>
                   <td>
                     <div class="btn-group gap-2" role="group">
                       <Link :href="route('sale.edit', {id: sale.id})">
@@ -72,4 +72,8 @@ const destroy = (id) => {
     router.delete(route('sale.destroy', id));
   }
 };
+
+const go_to_sale = (id) => {
+  router.get(route('sale.show', id));
+}
 </script>
