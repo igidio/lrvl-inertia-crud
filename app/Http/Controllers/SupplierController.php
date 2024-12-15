@@ -22,10 +22,27 @@ class SupplierController extends Controller
     ]);
   }
 
+  public function create()
+  {
+    return Inertia::render('Supplier/Create');
+  }
+
+  public function store(Request $request)
+  {
+    $request->validate([
+      'nombre' => 'required',
+      'telefono' => 'required',
+      'email' => 'required',
+    ]);
+
+    Supplier::query()->create($request->all());
+    return redirect()->route('supplier.index')->with('status', 'Proveedor creado con éxito');
+  }
+
   public function edit($id)
   {
     $supplier = Supplier::query()->findOrFail($id);
-    return Inertia::render('Supplier/Edit', compact('supplier'));
+    return Inertia::render('Supplier', compact('supplier'));
   }
 
   public function update(Request $request, Supplier $supplier)

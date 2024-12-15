@@ -9,10 +9,10 @@
     <div class="py-12">
       <div class="container">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-          <!--          <Link :href="route('supplier.create')" class="d-flex justify-content-end mb-4">-->
-          <!--            <button class="btn btn-primary">Crear nuevo proveedor</button>-->
-          <!--          </Link>-->
+          
+          <Link :href="route('supplier.create')" class="d-flex justify-content-end mb-4">
+            <button class="btn btn-primary">Crear nuevo proveedor</button>
+          </Link>
 
 
           <div class="card shadow-sm">
