@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\Supplier;
 use Database\Seeders\CategorySeeder;
@@ -41,7 +42,11 @@ class ProductController extends Controller
       'id_categoria' => 'required',
     ]);
 
-    Product::query()->create($request->all());
+    $product = Product::query()->create($request->all());
+    Inventory::query()->create([
+      'cantidad' => 0,
+      'id_producto' => $product->id,
+    ]);
     return redirect()->route('product.index')->with('status', 'Producto creado con éxito');
   }
 

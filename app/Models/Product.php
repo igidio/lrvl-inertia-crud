@@ -33,7 +33,7 @@ class Product extends Model
 
   public function salesDetails(): HasMany
   {
-    return $this->hasMany(SalesDetail::class, 'id_producto');
+    return $this->hasMany(Detail::class, 'id_producto');
   }
 
   public function inventory(): HasOne

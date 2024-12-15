@@ -28,5 +28,8 @@ Route::middleware([
   Route::resource('appointment', App\Http\Controllers\AppointmentController::class);
   Route::resource('supplier', App\Http\Controllers\SupplierController::class);
   Route::resource('product', App\Http\Controllers\ProductController::class);
+  Route::resource('sale', App\Http\Controllers\SaleController::class);
+  Route::resource('inventory', App\Http\Controllers\InventoryController::class);
+  Route::resource('addition', App\Http\Controllers\AdditionController::class);
   Route::put('appointment/move-and-update/{id}', [App\Http\Controllers\AppointmentController::class, 'moveAndUpdate']);
 });

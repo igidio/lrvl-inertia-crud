@@ -19,13 +19,13 @@ class Sale extends Model
 
   use HasFactory;
 
-  public function client(): BelongsTo
+  public function customer(): BelongsTo
   {
-    return $this->belongsTo(Client::class, 'id_cliente');
+    return $this->belongsTo(Customer::class, 'id_cliente');
   }
 
   public function salesDetails(): HasMany
   {
-    return $this->hasMany(SalesDetail::class, 'id_venta');
+    return $this->hasMany(Detail::class, 'id_venta');
   }
 }
