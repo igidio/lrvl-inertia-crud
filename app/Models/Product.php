@@ -17,7 +17,6 @@ class Product extends Model
     'descripcion',
     'precio',
     'id_categoria',
-    'id_proveedor',
   ];
 
   use HasFactory;

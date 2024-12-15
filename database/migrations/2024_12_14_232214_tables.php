@@ -24,7 +24,6 @@ return new class extends Migration {
       $table->text('descripcion')->nullable();
       $table->decimal('precio', 10, 2);
       $table->foreignId('id_categoria')->constrained('categoria');
-      $table->foreignId('id_proveedor')->constrained('proveedor');
       $table->timestamps();
     });
     Schema::create('venta', function (Blueprint $table) {
