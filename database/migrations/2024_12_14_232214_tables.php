@@ -10,10 +10,9 @@ return new class extends Migration {
    */
   public function up(): void
   {
-    Schema::create('proovedor', function (Blueprint $table) {
+    Schema::create('proveedor', function (Blueprint $table) {
       $table->id();
       $table->string('nombre', 255);
-      $table->string('contacto', 255)->nullable();
       $table->string('telefono', 20)->nullable();
       $table->string('email', 255)->nullable();
       $table->timestamps();
@@ -25,7 +24,7 @@ return new class extends Migration {
       $table->text('descripcion')->nullable();
       $table->decimal('precio', 10, 2);
       $table->foreignId('id_categoria')->constrained('categoria');
-      $table->foreignId('id_proveedor')->constrained('proovedor');
+      $table->foreignId('id_proveedor')->constrained('proveedor');
       $table->timestamps();
     });
     Schema::create('venta', function (Blueprint $table) {
@@ -62,6 +61,6 @@ return new class extends Migration {
     Schema::dropIfExists('detalle');
     Schema::dropIfExists('venta');
     Schema::dropIfExists('producto');
-    Schema::dropIfExists('proovedor');
+    Schema::dropIfExists('proveedor');
   }
 };

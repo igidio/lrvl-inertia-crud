@@ -10,8 +10,8 @@ class ProductSeeder extends Seeder
   public function run(): void
   {
     DB::table('producto')->insert([
-      ['nombre' => 'Crema hidratante', 'descripcion' => 'Crema para hidratar la piel', 'precio' => 19.99, 'id_categoria' => 1, 'id_proveedor' => 1],
-      ['nombre' => 'Shampoo', 'descripcion' => 'Shampoo para el cabello', 'precio' => 9.99, 'id_categoria' => 3, 'id_proveedor' => 2],
+      ['nombre' => 'Crema hidratante', 'descripcion' => 'Crema para hidratar la piel', 'precio' => 19.99, 'id_categoria' => 1, 'id_proveedor' => 1,'created_at' => now(), 'updated_at' => now()],
+      ['nombre' => 'Shampoo', 'descripcion' => 'Shampoo para el cabello', 'precio' => 9.99, 'id_categoria' => 3, 'id_proveedor' => 2,'created_at' => now(), 'updated_at' => now()],
     ]);
   }
 }

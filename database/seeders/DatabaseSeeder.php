@@ -25,5 +25,11 @@ class DatabaseSeeder extends Seeder
             'password' => 'PASSWORD',
             'id_rol' => '1'
         ]);
+        $this->call(CategorySeeder::class);
+        $this->call(SupplierSeeder::class);
+        $this->call(ProductSeeder::class);
+        $this->call(SaleSeeder::class);
+        $this->call(DetailSeeder::class);
+        $this->call(InventorySeeder::class);
     }
 }
