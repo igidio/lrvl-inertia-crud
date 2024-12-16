@@ -60,7 +60,6 @@
 
 <script setup>
 import {defineProps, ref} from 'vue'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import AppLayout from "@/Layouts/AppLayout.vue";
 import {Link, router} from "@inertiajs/vue3";
 

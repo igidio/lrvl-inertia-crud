@@ -18,10 +18,14 @@ Route::middleware([
   config('jetstream.auth_session'),
   'verified',
 ])->group(function () {
-  Route::get('/', [
-    App\Http\Controllers\PageController::class,
-    'index'
-  ])->name('dashboard');
+//  Route::get('/', [
+//    App\Http\Controllers\PageController::class,
+//    'index'
+//  ])->name('dashboard');
+  Route::get('/', function () {
+    return redirect('/appointment');
+  })->name('dashboard');
+
   //Route::resource('notes', App\Http\Controllers\NoteController::class);
   Route::resource('customer', App\Http\Controllers\CustomerController::class);
   Route::resource('service', App\Http\Controllers\ServiceController::class);

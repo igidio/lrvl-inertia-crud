@@ -15,7 +15,7 @@ class SaleController extends Controller
   public function index()
   {
     return Inertia::render('Sale/Sale', [
-      'sales' => Sale::all()->map(function ($model) {
+      'sales' => Sale::orderBy('created_at', 'desc')->get()->map(function ($model) {
         return [
           'id' => $model->id,
           'fecha' => $model->created_at->format('Y-m-d H:i:s'),
