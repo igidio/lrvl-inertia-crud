@@ -37,6 +37,8 @@
 
             <div class="mt-4">
               <Link :href="route('sale.index')" class="btn btn-secondary">Volver</Link>
+              <button @click="generatePDF" class="btn btn-primary ml-2">Generar factura (en PDF)</button>
+
             </div>
           </div>
         </div>
@@ -49,6 +51,8 @@
 import { defineProps } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link } from '@inertiajs/vue3';
+import jsPDF from "jspdf";
+import 'jspdf-autotable';
 
 const props = defineProps({
   sale: {
@@ -56,4 +60,35 @@ const props = defineProps({
     required: true,
   }
 });
+
+const generatePDF = () => {
+  const doc = new jsPDF();
+
+  doc.setFontSize(18);
+  doc.text('Factura de Venta', 14, 22);
+  doc.setFontSize(12);
+  doc.text(`Venta ID: ${props.sale.id}`, 14, 32);
+  doc.text(`Fecha: ${props.sale.fecha}`, 14, 40);
+  doc.text(`Cliente: ${props.sale.cliente}`, 14, 48);
+  doc.text(`Total: ${props.sale.total} Bs.`, 14, 56);
+
+  const columns = ["ID", "Nombre", "Cantidad", "Precio"];
+  const rows = props.sale.productos.map(producto => [
+    producto.id,
+    producto.nombre,
+    producto.cantidad,
+    `${producto.precio} Bs.`
+  ]);
+
+  doc.autoTable({
+    startY: 70,
+    head: [columns],
+    body: rows,
+    theme: 'grid',
+    headStyles: { fillColor: [67, 178, 234] },
+    styles: { fontSize: 10, cellPadding: 3 },
+  });
+
+  doc.save(`Factura_Venta_${props.sale.id}.pdf`);
+};
 </script>

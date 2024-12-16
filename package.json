@@ -26,6 +26,8 @@
         "@schedule-x/theme-default": "^1.46.1",
         "@schedule-x/vue": "^1.43.3",
         "bootstrap": "^5.3.3",
+        "jspdf": "^2.5.2",
+        "jspdf-autotable": "^3.8.4",
         "v-calendar": "^3.1.2",
         "zod": "^3.23.8"
     }
