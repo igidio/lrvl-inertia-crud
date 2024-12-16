@@ -64,31 +64,51 @@ const props = defineProps({
 const generatePDF = () => {
   const doc = new jsPDF();
 
-  doc.setFontSize(18);
-  doc.text('Factura de Venta', 14, 22);
-  doc.setFontSize(12);
-  doc.text(`Venta ID: ${props.sale.id}`, 14, 32);
-  doc.text(`Fecha: ${props.sale.fecha}`, 14, 40);
-  doc.text(`Cliente: ${props.sale.cliente}`, 14, 48);
-  doc.text(`Total: ${props.sale.total} Bs.`, 14, 56);
+  const img = new Image();
+  img.src = '/images/logo.jpg';
+  img.onload = () => {
+    const imgWidth = 24;
+    const imgHeight = 24;
+    const x = 14;
+    const y = 10;
 
-  const columns = ["ID", "Nombre", "Cantidad", "Precio"];
-  const rows = props.sale.productos.map(producto => [
-    producto.id,
-    producto.nombre,
-    producto.cantidad,
-    `${producto.precio} Bs.`
-  ]);
+    doc.setFillColor(255, 255, 255);
+    doc.circle(x + imgWidth / 2, y + imgHeight / 2, imgWidth / 2, 'F');
 
-  doc.autoTable({
-    startY: 70,
-    head: [columns],
-    body: rows,
-    theme: 'grid',
-    headStyles: { fillColor: [67, 178, 234] },
-    styles: { fontSize: 10, cellPadding: 3 },
-  });
+    doc.addImage(img, 'JPEG', x, y, imgWidth, imgHeight);
 
-  doc.save(`Factura_Venta_${props.sale.id}.pdf`);
+    doc.setFontSize(12);
+    doc.text('Salones SUNSHINE', 45, 15);
+    doc.text('Avenida 123 Calle 456', 45, 20);
+    doc.text('77712345 - 77753321', 45, 25);
+    doc.text('sunshine@mail.com', 45, 30);
+
+    doc.setFontSize(18);
+    doc.text('Factura de Venta', 14, 50);
+    doc.setFontSize(12);
+    doc.text(`Venta ID: ${props.sale.id}`, 14, 60);
+    doc.text(`Fecha: ${props.sale.fecha}`, 14, 68);
+    doc.text(`Cliente: ${props.sale.cliente}`, 14, 76);
+    doc.text(`Total: ${props.sale.total} Bs.`, 14, 84);
+
+    const columns = ["ID", "Nombre", "Cantidad", "Precio"];
+    const rows = props.sale.productos.map(producto => [
+      producto.id,
+      producto.nombre,
+      producto.cantidad,
+      `${producto.precio} Bs.`
+    ]);
+
+    doc.autoTable({
+      startY: 90,
+      head: [columns],
+      body: rows,
+      theme: 'grid',
+      headStyles: { fillColor: [67, 158, 234] },
+      styles: { fontSize: 10, cellPadding: 3 },
+    });
+
+    doc.save(`Factura_Venta_${props.sale.id}.pdf`);
+  };
 };
 </script>

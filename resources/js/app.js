@@ -1,7 +1,8 @@
 import './bootstrap';
 import '../css/app.css';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/bootstrap.css';
 import 'bootstrap';
 
 import VCalendar from 'v-calendar';

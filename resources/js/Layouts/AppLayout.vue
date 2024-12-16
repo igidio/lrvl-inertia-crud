@@ -34,7 +34,7 @@ const logout = () => {
 
     <Banner/>
 
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-[#e8f3f4]">
       <nav class="bg-white border-b border-gray-100">
         <!-- Primary Navigation Menu -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,14 +63,14 @@ const logout = () => {
                 <NavLink :href="route('service.index')" :active="route().current('service.index')">
                   Servicios
                 </NavLink>
+                <NavLink :href="route('sale.index')" :active="route().current('sale.index')">
+                  Ventas
+                </NavLink>
                 <NavLink :href="route('supplier.index')" :active="route().current('supplier.index')">
                   Proveedores
                 </NavLink>
                 <NavLink :href="route('product.index')" :active="route().current('product.index')">
                   Productos
-                </NavLink>
-                <NavLink :href="route('sale.index')" :active="route().current('sale.index')">
-                  Ventas
                 </NavLink>
                 <NavLink :href="route('inventory.index')" :active="route().current('inventory.index')">
                   Inventario

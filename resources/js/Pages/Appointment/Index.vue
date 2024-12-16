@@ -8,6 +8,7 @@ import {
     viewMonthAgenda,
 } from '@schedule-x/calendar'
 import '@schedule-x/theme-default/dist/index.css'
+import '../../../css/schedulex.css'
 import { createDragAndDropPlugin } from '@schedule-x/drag-and-drop'
 import { createEventsServicePlugin } from '@schedule-x/events-service'
 import { defineProps, ref } from 'vue';
