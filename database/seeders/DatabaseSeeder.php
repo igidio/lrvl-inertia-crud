@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CustomerSeeder::class);
         $this->call(ServiceSeeder::class);
         $this->call(AppointmentSeeder::class);
+        $this->call(SupplierSeeder::class);
         User::factory()->create([
             'name' => 'Claudia',
             'email' => 'claudia@mail.com',
@@ -26,11 +27,10 @@ class DatabaseSeeder extends Seeder
             'id_rol' => '1'
         ]);
         $this->call(CategorySeeder::class);
-        $this->call(SupplierSeeder::class);
         $this->call(ProductSeeder::class);
         $this->call(SaleSeeder::class);
         $this->call(DetailSeeder::class);
         $this->call(InventorySeeder::class);
-        //$this->call(AdditionSeeder::class);
+        $this->call(AdditionSeeder::class);
     }
 }

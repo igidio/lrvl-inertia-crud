@@ -16,8 +16,14 @@ class SupplierFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            //
-        ];
+      $this->faker = \Faker\Factory::create('es_VE');
+
+      return [
+        'nombre' => $this->faker->company,
+        'telefono' => $this->faker->numberBetween(60000000, 79999999),
+        'email' => $this->faker->unique()->safeEmail,
+        'created_at' => now(),
+        'updated_at' => now(),
+      ];
     }
 }
