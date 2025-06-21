@@ -35,5 +35,6 @@ Route::middleware([
   Route::resource('sale', App\Http\Controllers\SaleController::class);
   Route::resource('inventory', App\Http\Controllers\InventoryController::class);
   Route::resource('addition', App\Http\Controllers\AdditionController::class);
+  Route::resource('chat', App\Http\Controllers\ChatController::class);
   Route::put('appointment/move-and-update/{id}', [App\Http\Controllers\AppointmentController::class, 'moveAndUpdate']);
 });
