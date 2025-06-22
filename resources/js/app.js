@@ -3,6 +3,7 @@ import '../css/app.css';
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/bootstrap.css';
+import '../css/fontawesome.css';
 import 'bootstrap';
 
 import VCalendar from 'v-calendar';

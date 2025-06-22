@@ -7,6 +7,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import ChatWindow from '@/Components/ChatWindow.vue';
 
 defineProps({
   title: String,
@@ -24,6 +25,12 @@ const switchToTeam = (team) => {
 
 const logout = () => {
   router.post(route('logout'));
+};
+
+const showChat = ref(false);
+
+const toggleChat = () => {
+  showChat.value = !showChat.value;
 };
 </script>
 
@@ -343,8 +350,38 @@ const logout = () => {
           {{ $page.props.flash.error }}
         </div>
 
+
+
+
+
+
         <slot/>
+
       </main>
+
     </div>
   </div>
+  <button
+    @click="toggleChat"
+    style="position: fixed; bottom: 32px; right: 32px; z-index: 1000;"
+    class="btn btn-primary rounded-5 h-16 w-16"
+  >
+<!--    class="bg-blue-600 text-white rounded-full shadow-lg h-16 w-16 hover:bg-blue-700 transition"-->
+    <i
+      class="ri--chat-smile-ai-fill"></i>
+  </button>
+
+
+  <div class="" style="position: fixed; bottom: 32px; right: 120px; z-index: 1000;">
+    <ChatWindow v-if="showChat" @close="showChat = false"/>
+  </div>
 </template>
+<style>
+.ri--chat-smile-ai-fill::after {
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  vertical-align: -0.325em;
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='m20.713 8.128l-.246.566a.506.506 0 0 1-.934 0l-.246-.566a4.36 4.36 0 0 0-2.22-2.25l-.759-.339a.53.53 0 0 1 0-.963l.717-.319a4.37 4.37 0 0 0 2.251-2.326l.253-.611a.506.506 0 0 1 .942 0l.253.61a4.37 4.37 0 0 0 2.25 2.327l.718.32a.53.53 0 0 1 0 .962l-.76.338a4.36 4.36 0 0 0-2.219 2.251M20 11c.67 0 1.313-.11 1.915-.312Q22 11.333 22 12c0 5.523-4.477 10-10 10a9.96 9.96 0 0 1-4.709-1.176L2 22l1.176-5.291A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2c.906 0 1.783.12 2.617.346A6 6 0 0 0 20 11M7 12a5 5 0 0 0 10 0h-2a3 3 0 1 1-6 0z'/%3E%3C/svg%3E");
+}
+</style>
