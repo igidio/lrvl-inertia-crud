@@ -56,8 +56,8 @@
             </div>
             <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
               <input type="text" class="form-control form-control-md" autocomplete="off" placeholder="Escriba algo"
-                v-model="message_content" @keyup.enter="send_message(message_content)">
-              <button class="btn btn-primary ml-3 rounded-5 w-8 h-8 p-2" @click="send_message(message_content)"
+                v-model="message_content" @keyup.enter="send_message(message_content.trim())">
+              <button class="btn btn-primary ml-3 rounded-5 w-8 h-8 px-1" @click="send_message(message_content.trim())"
                 :disabled="is_loading == true"><i class="famicons--paper-plane"></i></button>
             </div>
           </div>
@@ -96,11 +96,13 @@ const loadMessages = () => {
     } finally {
       is_loading.value = false;
     }
+  } else {
+    localStorage.setItem('chat', JSON.stringify([]));
+    return [];
+      is_loading.value = false;
+
   }
 
-  return [
-    { text: 'Hola, ¿cómo puedo ayudarte?', type: 'received' },
-  ];
 };
 
 const saveMessages = () => {
@@ -118,6 +120,7 @@ const scrollToBottom = () => {
 const messages = ref([])
 
 const send_message = async (message) => {
+  
 
   if (!message || is_loading.value) {
     return;
@@ -127,6 +130,9 @@ const send_message = async (message) => {
   is_loading.value = true;
   messages.value.push({ text: message, type: 'sent' });
   if (messages.value.length > 20) messages.value.shift();
+  if (messages.value.length > 1 && messages.value[0].type === 'received') {
+    messages.value.shift();
+  }
   saveMessages();
   message_content.value = ''
 
@@ -185,7 +191,6 @@ const clearHistory = () => {
 
 onMounted(() => {
   messages.value = loadMessages();
-
   scrollToBottom();
 });
 </script>
