@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
@@ -38,7 +37,7 @@ class ChatController extends Controller
     }
 
     try {
-      $results = \DB::select($query);
+      $results = DB::select($query);
       return response()->json($results);
     } catch (\Exception $e) {
       return response()->json(['error' => 'Invalid query or execution error.'], 400);
