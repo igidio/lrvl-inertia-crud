@@ -66,10 +66,12 @@
 
 
                   <div class="col justify-center flex flex-row gap-4 mt-4">
-
-                    <img :src="image_url || `/images/image_placeholder.jpg`" alt="Imagen del producto"
-                      class="border border-gray-600"
-                      style="width:160px; height:160px; object-fit:cover; transition: all .2s ease;" />
+                    <div class="flex flex-col gap-4 grow">
+                      <img :src="image_url || `/images/image_placeholder.jpg`" alt="Imagen del producto"
+                        class="border border-gray-600 w-32 h-32 rounded-md fit aspect-square object-cover" />
+                      <button class="btn btn-secondary btn-sm w-32" v-if="suggest_data"
+                        @click="set_data_to_form(suggest_data)">Aplicar</button>
+                    </div>
 
                     <div class="row mb-3">
                       <div class="w-full flex flex-col mt-2 gap-2">
@@ -79,11 +81,15 @@
                             v-if="image_url">Eliminar</button>
                         </div>
 
-                        <input id="imagen" type="file" class="form-control" @change="on_file_change" ref="ref_file"
+                        <input id="imagen" type="file" class="form-control w-72" @change="on_file_change" ref="ref_file"
                           accept="image/*" :disabled="is_loading">
 
                         <div class="flex items-center gap-2 mt-2">
-                          <input id="sugerir" type="checkbox" class="form-checkbox h-4 w-4" v-model="suggest" />
+                          <input id="sugerir" type="checkbox" class="form-checkbox h-4 w-4" v-model="suggest" @change="() => {
+                            if (suggest && image) {
+                              submit_image();
+                            }
+                          }" />
                           <label for="sugerir" class="text-sm select-none">Sugerir de acuerdo a la imagen</label>
                         </div>
 
@@ -94,23 +100,45 @@
                             @click="submit_image">Reintentar</span>
                         </span>
 
+                        <div class="flex flex-col w-72" v-if="suggest_data">
+                          <span class="font-bold text-lg">Sugerencia</span>
+                          <span class="font-bold text-">Nombre</span>
+                          <span>{{ suggest_data.name }}</span>
+                          <span class="font-bold text-sm">Descripción</span>
+                          <span>{{ suggest_data.description }}</span>
+                          <span class="font-bold text-sm">Categoría</span>
+                          <span>{{ suggest_data.category }}</span>
+                        </div>
+
 
 
 
                       </div>
+
+
+
                     </div>
+
+
+
                   </div>
+
 
                 </div>
 
               </div>
               <div class="card-footer">
-                <div class="row justify-content-end m-2">
-                  <Link :href="route('product.index')" class="btn btn-secondary col-2 mr-2">
-                    Cancelar
-                  </Link>
-                  <button class="btn btn-primary col-2" type="submit"
-                    :disabled="Object.keys(errors).length !== 0">Enviar</button>
+                <div class="flex flex-row justify-between m-2 ">
+                  <div>
+                    <button class="btn btn-light" @click.prevent="clear">Limpiar</button>
+                  </div>
+                  <div>
+                    <Link :href="route('product.index')" class="btn btn-secondary mr-2">
+                      Cancelar
+                    </Link>
+                    <button class="btn btn-primary" type="submit"
+                      :disabled="Object.keys(errors).length !== 0">Enviar</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -189,6 +217,7 @@ const is_loading = ref(false);
 const ref_file = ref(null);
 const show_error_when_sending_image = ref(false);
 const suggest = ref(false);
+const suggest_data = ref(null);
 
 
 const on_file_change = async (e) => {
@@ -207,11 +236,11 @@ const on_delete = () => {
   image.value = null;
   image_url.value = "";
   ref_file.value.value = "";
-  data.value = {};
+  suggest_data.value = null;
   show_error_when_sending_image.value = false;
-  if (data.value.name === form.value.nombre) form.value.nombre = '';
-  if (data.value.description === form.value.descripcion) form.value.descripcion = '';
-  if (data.value.category) form.value.id_categoria = '';
+  if (suggest_data.value.name === form.value.nombre) form.value.nombre = '';
+  if (suggest_data.value.description === form.value.descripcion) form.value.descripcion = '';
+  if (suggest_data.value.category) form.value.id_categoria = '';
   is_loading.value = false;
 }
 
@@ -223,6 +252,10 @@ const set_data_to_form = (data) => {
       form.value.id_categoria = category.id;
     }
   });
+}
+
+const set_data_to_suggest = (data) => {
+  suggest_data.value = data;
 }
 
 
@@ -242,9 +275,8 @@ const submit_image = async () => {
       'Content-Type': 'multipart/form-data'
     }
   }).then((image) => {
-    console.log('Imagen enviada con éxito');
-    console.log(image.data);
-    set_data_to_form(image.data);
+
+    set_data_to_suggest(image.data);
   })
     .catch((error) => {
       show_error_when_sending_image.value = true;
@@ -252,5 +284,15 @@ const submit_image = async () => {
     .finally(() => {
       is_loading.value = false;
     });
+}
+
+const clear = () => {
+  form.value.nombre = '';
+  form.value.descripcion = '';
+  form.value.precio = undefined;
+  form.value.id_categoria = '';
+  on_delete();
+  errors.value = {};
+
 }
 </script>
