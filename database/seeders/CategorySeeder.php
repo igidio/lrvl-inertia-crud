@@ -22,6 +22,11 @@ class CategorySeeder extends Seeder
       ['nombre' => 'Aromaterapia', 'descripcion' => 'Productos de aromaterapia', 'created_at' => now(), 'updated_at' => now()],
       ['nombre' => 'Accesorios de belleza', 'descripcion' => 'Accesorios para la belleza', 'created_at' => now(), 'updated_at' => now()],
       ['nombre' => 'Cuidado de los pies', 'descripcion' => 'Productos para el cuidado de los pies', 'created_at' => now(), 'updated_at' => now()],
+      ['nombre' => 'Cuidado de los ojos', 'descripcion' => 'Productos para el cuidado de los ojos', 'created_at' => now(), 'updated_at' => now()],
+      ['nombre' => 'Cuidado de labios', 'descripcion' => 'Productos para el cuidado de los labios', 'created_at' => now(), 'updated_at' => now()],
+      ['nombre' => 'Cuidado masculino', 'descripcion' => 'Productos de belleza para hombres', 'created_at' => now(), 'updated_at' => now()],
+      ['nombre' => 'Cuidado infantil', 'descripcion' => 'Productos de belleza para niños', 'created_at' => now(), 'updated_at' => now()],
+      ['nombre' => 'Otros', 'descripcion' => 'Otros productos, que pueden o no estar categorizados', 'created_at' => now(), 'updated_at' => now()],
     ]);
   }
 }

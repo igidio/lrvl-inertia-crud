@@ -30,8 +30,8 @@
                     <div class="row mb-3">
                       <div class="col">
                         <label for="descripcion">Descripción:</label>
-                        <input id="descripcion" type="text" class="form-control" v-model="form.descripcion"
-                          @input="validateOne('descripcion', form.descripcion)">
+                        <textarea id="descripcion" type="text" class="form-control resize-none" v-model="form.descripcion"
+                          @input="validateOne('descripcion', form.descripcion)" maxlength="255" rows="5"></textarea>
                         <ErrorList :errors="errors.descripcion" />
                       </div>
                     </div>
@@ -67,18 +67,20 @@
                   <div class="col justify-center items-center flex flex-col">
 
                     <img :src="image_url || `/images/image_placeholder.jpg`" alt="Imagen del producto"
-                      class="border border-gray-600 rounded"
-                      style="width:160px; height:160px; object-fit:cover; transition: all .2s ease;" :class="rounded" />
+                      class="border border-gray-600"
+                      style="width:160px; height:160px; object-fit:cover; transition: all .2s ease;" />
 
                     <div class="row mb-3">
-                      <div class="w-full flex flex-col mt-2">
-                        <label class="flex flex-row justify-between"  for="imagen">
+                      <div class="w-full flex flex-col mt-2 gap-2">
+                        <div class="flex flex-row justify-between" for="imagen">
                           <span>Imagen:</span>
-                          <button type="button" @click="on_delete()" class="text-primary self-end">Eliminar</button>
-                        </label>
+                          <button type="button" @click="on_delete()" class="text-primary self-end"
+                            v-if="image_url">Eliminar</button>
+                        </div>
 
-                        <input id="imagen" type="file" class="form-control" @change="on_file_change" ref="file_input"
+                        <input id="imagen" type="file" class="form-control" @change="on_file_change" ref="ref_file"
                           accept="image/*">
+                        <span class="text-xs opacity-80">De acuerdo a la imagen puedes autocompletar los campos del formulario.</span>
 
                       </div>
                     </div>
@@ -112,6 +114,7 @@ import { Link, router } from "@inertiajs/vue3";
 import ErrorList from "@/Components/ErrorList.vue";
 import { ref } from "vue";
 import { z } from "zod";
+import axios from "axios";
 
 const props = defineProps({
   categories: {
@@ -166,23 +169,43 @@ const validateOne = (field, value) => {
 
 const image_url = ref("");
 const image = ref(null);
-const existent_image = ref(null);
+const is_loading = ref(false);
+const ref_file = ref(null);
 
-const on_file_change = (e) => {
+const on_file_change = async (e) => {
   const target = e.target;
   console.log(target.files[0]);
   const file = target.files[0];
   if (file) {
     image.value = file;
     image_url.value = URL.createObjectURL(file);
+    await submit_image();
   }
 };
 
 const on_delete = () => {
 
-    image.value = null;
-    image_url.value = "";
-    existent_image.value = null;
-    refs.file_input.value = null;
+  image.value = null;
+  image_url.value = "";
+  ref_file.value.value = "";
+}
+
+const submit_image = async () => {
+  if (!image.value) return;
+  is_loading.value = true;
+  const formData = new FormData();
+  formData.append('image', image.value);
+
+  await axios.post('/api/image', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }).then((image) =>  {
+    console.log('Imagen enviada con éxito');
+    console.log(image);
+  })
+  .finally(() => {
+    is_loading.value = false;
+  });
 }
 </script>

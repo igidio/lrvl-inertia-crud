@@ -10,20 +10,20 @@ use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function boot(): void
-    {
-        Inertia::share('flash', function () {
-            return ['status' => Session::get('status')];
-        });
-    }
+  /**
+   * Register any application services.
+   */
+  public function boot(): void
+  {
+    URL::forceScheme('https');
 
-    public function register(): void
-    {
-        //
-    }
+    Inertia::share('flash', function () {
+      return ['status' => Session::get('status')];
+    });
+  }
 
-
+  public function register(): void
+  {
+    //
+  }
 }
