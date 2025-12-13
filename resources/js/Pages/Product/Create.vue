@@ -30,8 +30,9 @@
                     <div class="row mb-3">
                       <div class="col">
                         <label for="descripcion">Descripción:</label>
-                        <textarea id="descripcion" type="text" class="form-control resize-none" v-model="form.descripcion"
-                          @input="validateOne('descripcion', form.descripcion)" maxlength="255" rows="5"></textarea>
+                        <textarea id="descripcion" type="text" class="form-control resize-none"
+                          v-model="form.descripcion" @input="validateOne('descripcion', form.descripcion)"
+                          maxlength="255" rows="5"></textarea>
                         <ErrorList :errors="errors.descripcion" />
                       </div>
                     </div>
@@ -64,7 +65,7 @@
                   </div>
 
 
-                  <div class="col justify-center items-center flex flex-col">
+                  <div class="col justify-center flex flex-row gap-4 mt-4">
 
                     <img :src="image_url || `/images/image_placeholder.jpg`" alt="Imagen del producto"
                       class="border border-gray-600"
@@ -79,8 +80,22 @@
                         </div>
 
                         <input id="imagen" type="file" class="form-control" @change="on_file_change" ref="ref_file"
-                          accept="image/*">
-                        <span class="text-xs opacity-80">De acuerdo a la imagen puedes autocompletar los campos del formulario.</span>
+                          accept="image/*" :disabled="is_loading">
+
+                        <div class="flex items-center gap-2 mt-2">
+                          <input id="sugerir" type="checkbox" class="form-checkbox h-4 w-4" v-model="suggest" />
+                          <label for="sugerir" class="text-sm select-none">Sugerir de acuerdo a la imagen</label>
+                        </div>
+
+                        <span class="text-xs text-red-600" v-if="show_error_when_sending_image">No se pudo conectar
+                          con
+                          el
+                          servicio de reconocimiento de imágenes. <span class="font-bold hover:underline cursor-pointer"
+                            @click="submit_image">Reintentar</span>
+                        </span>
+
+
+
 
                       </div>
                     </div>
@@ -115,6 +130,7 @@ import ErrorList from "@/Components/ErrorList.vue";
 import { ref } from "vue";
 import { z } from "zod";
 import axios from "axios";
+import { data } from "autoprefixer";
 
 const props = defineProps({
   categories: {
@@ -171,6 +187,9 @@ const image_url = ref("");
 const image = ref(null);
 const is_loading = ref(false);
 const ref_file = ref(null);
+const show_error_when_sending_image = ref(false);
+const suggest = ref(false);
+
 
 const on_file_change = async (e) => {
   const target = e.target;
@@ -188,11 +207,33 @@ const on_delete = () => {
   image.value = null;
   image_url.value = "";
   ref_file.value.value = "";
+  data.value = {};
+  show_error_when_sending_image.value = false;
+  if (data.value.name === form.value.nombre) form.value.nombre = '';
+  if (data.value.description === form.value.descripcion) form.value.descripcion = '';
+  if (data.value.category) form.value.id_categoria = '';
+  is_loading.value = false;
 }
+
+const set_data_to_form = (data) => {
+  if (data.name) form.value.nombre = data.name;
+  if (data.description) form.value.descripcion = data.description;
+  if (data.category) props.categories.forEach(category => {
+    if (category.nombre.toLowerCase() === data.category.toLowerCase()) {
+      form.value.id_categoria = category.id;
+    }
+  });
+}
+
 
 const submit_image = async () => {
   if (!image.value) return;
+  show_error_when_sending_image.value = false;
   is_loading.value = true;
+  if (!suggest.value) {
+    is_loading.value = false;
+    return;
+  }
   const formData = new FormData();
   formData.append('image', image.value);
 
@@ -200,12 +241,16 @@ const submit_image = async () => {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
-  }).then((image) =>  {
+  }).then((image) => {
     console.log('Imagen enviada con éxito');
-    console.log(image);
+    console.log(image.data);
+    set_data_to_form(image.data);
   })
-  .finally(() => {
-    is_loading.value = false;
-  });
+    .catch((error) => {
+      show_error_when_sending_image.value = true;
+    })
+    .finally(() => {
+      is_loading.value = false;
+    });
 }
 </script>

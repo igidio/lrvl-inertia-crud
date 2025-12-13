@@ -81,7 +81,8 @@ class ImageController extends Controller
       "stream" => false,
     ];
     $response = $client->post($url, [
-      'json' => $payload
+      'json' => $payload,
+      'timeout' => 10,
     ]);
     $stream = $response->getBody();
     $contents = $stream->getContents();
