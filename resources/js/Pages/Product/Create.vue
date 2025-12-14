@@ -10,7 +10,7 @@
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white shadow-xl sm:rounded-lg">
 
-          <form @submit.prevent="submit">
+          <form @submit.prevent="submit" enctype="multipart/form-data">
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title mb-4">
@@ -158,7 +158,6 @@ import ErrorList from "@/Components/ErrorList.vue";
 import { ref } from "vue";
 import { z } from "zod";
 import axios from "axios";
-import { data } from "autoprefixer";
 
 const props = defineProps({
   categories: {
@@ -178,7 +177,7 @@ const form = ref({
   nombre: '',
   descripcion: '',
   precio: undefined,
-  id_categoria: '',
+  id_categoria: ''
 })
 
 const errors = ref({});
@@ -186,7 +185,26 @@ const errors = ref({});
 const submit = async () => {
   validate();
   if (Object.keys(errors.value).length !== 0) return;
-  router.post(`/product`, form.value);
+  const fd = new FormData();
+  fd.append('nombre', form.value.nombre);
+  fd.append('descripcion', form.value.descripcion);
+  fd.append('precio', form.value.precio ?? '');
+  fd.append('id_categoria', form.value.id_categoria ?? '');
+
+  if (image.value) {
+    fd.append('imagen', image.value);
+  }
+
+  //await router.post('/product', fd);
+
+  try {
+    await axios.post('/product', fd, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    window.location.href = '/product';
+  } catch (e) {
+    console.error('Upload error', e);
+  }
 }
 
 const validate = () => {

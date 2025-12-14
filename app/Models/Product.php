@@ -17,7 +17,10 @@ class Product extends Model
     'descripcion',
     'precio',
     'id_categoria',
+    'imagen'
   ];
+
+
 
   use HasFactory;
 

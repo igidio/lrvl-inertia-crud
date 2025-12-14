@@ -40,9 +40,17 @@ class ProductController extends Controller
       'descripcion' => 'required',
       'precio' => 'required',
       'id_categoria' => 'required',
+      'imagen' => 'nullable|image|max:2048',
     ]);
 
-    $product = Product::query()->create($request->all());
+    $data = $request->except('imagen');
+
+    if ($request->hasFile('imagen') && $request->file('imagen')->isValid()) {
+      $path = $request->file('imagen')->store('products', 'public');
+      $data['imagen'] = $path;
+    }
+
+    $product = Product::query()->create($data);
     Inventory::query()->create([
       'cantidad' => 0,
       'id_producto' => $product->id,

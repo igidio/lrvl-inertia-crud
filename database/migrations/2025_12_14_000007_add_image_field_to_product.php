@@ -6,23 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::table('producto', function (Blueprint $table) {
-            $table->string('imagen')->nullable()->after('descripcion');
-        });
-    }
+  /**
+   * Run the migrations.
+   */
+  public function up(): void
+  {
+    Schema::table('producto', function (Blueprint $table) {
+      $table->string('imagen')->nullable()->after('descripcion'); // guarda la ruta/filename, p. ej. 'productos/imagen.jpg'
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::table('product', function (Blueprint $table) {
-            //
-        });
-    }
+  /**
+   * Reverse the migrations.
+   */
+  public function down(): void
+  {
+    Schema::table('product', function (Blueprint $table) {
+      //
+    });
+  }
 };
