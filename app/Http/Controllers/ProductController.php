@@ -22,6 +22,8 @@ class ProductController extends Controller
           'descripcion' => $model->descripcion,
           'precio' => $model->precio,
           'categoria' => $model->category->nombre,
+          'imagen_url' => $model->imagen ? asset('storage/' . $model->imagen) : null,
+
         ];
       })
     ]);

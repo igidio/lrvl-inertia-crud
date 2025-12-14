@@ -20,36 +20,45 @@
 
               <table class="table table-striped mb-0">
                 <thead class="table-dark">
-                <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Descripción</th>
-                  <th scope="col">Precio</th>
-                  <th scope="col">Categoría</th>
-                  <th scope="col">Acciones</th>
-                </tr>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Categoría</th>
+                    <th scope="col">Acciones</th>
+                  </tr>
                 </thead>
                 <tbody>
-                <tr v-for="product in products" :key="product.id">
-                  <td>{{ product.id }}</td>
-                  <td>{{ product.nombre }}</td>
-                  <td class="w-25 text-ellipsis">{{ product.descripcion }}</td>
-                  <td>{{ product.precio }} Bs.</td>
-                  <td>{{ product.categoria }}</td>
-                  <td>
-                    <div class="btn-group gap-2" role="group">
-                      <Link :href="route('product.edit', {id: product.id})">
-                        <button class="btn btn-warning btn-sm" @click="">
-                          Modificar
-                        </button>
-                      </Link>
+                  <tr v-for="product in products" :key="product.id" class="align-middle">
+                    <td>{{ product.id }}</td>
+                    <td>
+                      <img :src="product.imagen_url || '/images/image_placeholder.jpg'" alt="Imagen del producto" class="w-16 h-16 object-cover rounded border border-gray-600">
+                      </img>
+                      </td>
+                    <td>{{ product.nombre }}</td>
+                    <td class="w-25">
+                      <div style="display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;">
+                        {{ product.descripcion }}
+                      </div>
+                    </td>
+                    <td>{{ product.precio }} Bs.</td>
+                    <td>{{ product.categoria }}</td>
+                    <td>
+                      <div class="btn-group gap-2" role="group">
+                        <Link :href="route('product.edit', { id: product.id })">
+                          <button class="btn btn-warning btn-sm" @click="">
+                            Modificar
+                          </button>
+                        </Link>
 
-                      <button class="btn btn-danger btn-sm" @click="destroy(product.id)">
-                        <i class="bi bi-trash me-1"></i>Eliminar
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                        <button class="btn btn-danger btn-sm" @click="destroy(product.id)">
+                          <i class="bi bi-trash me-1"></i>Eliminar
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -62,8 +71,8 @@
 
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import {Link, router} from "@inertiajs/vue3";
-import {defineProps} from "vue";
+import { Link, router } from "@inertiajs/vue3";
+import { defineProps } from "vue";
 
 defineProps({
   products: {
