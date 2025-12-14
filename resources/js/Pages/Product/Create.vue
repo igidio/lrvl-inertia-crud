@@ -66,9 +66,9 @@
 
 
                   <div class="col justify-center flex flex-row gap-4 mt-4">
-                    <div class="flex flex-col gap-4 grow">
+                    <div class="flex flex-col gap-2 ">
                       <img :src="image_url || `/images/image_placeholder.jpg`" alt="Imagen del producto"
-                        class="border border-gray-600 w-32 h-32 rounded-md fit aspect-square object-cover" />
+                        class="border border-gray-600 w-32 h-32 rounded-md aspect-square object-cover" />
                       <button class="btn btn-secondary btn-sm w-32" v-if="suggest_data"
                         @click="set_data_to_form(suggest_data)">Aplicar</button>
                     </div>
@@ -100,7 +100,7 @@
                             @click="submit_image">Reintentar</span>
                         </span>
 
-                        <div class="flex flex-col w-72" v-if="suggest_data">
+                        <div class="flex flex-col w-80" v-if="suggest_data">
                           <span class="font-bold text-lg">Sugerencia</span>
                           <span class="font-bold text-">Nombre</span>
                           <span>{{ suggest_data.name }}</span>
