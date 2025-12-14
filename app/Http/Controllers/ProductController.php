@@ -9,6 +9,7 @@ use App\Models\Supplier;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -44,7 +45,6 @@ class ProductController extends Controller
       'id_categoria' => 'required',
       'imagen' => 'nullable|image|max:2048',
     ]);
-
     $data = $request->except('imagen');
 
     if ($request->hasFile('imagen') && $request->file('imagen')->isValid()) {
@@ -69,7 +69,28 @@ class ProductController extends Controller
 
   public function update(Request $request, Product $product)
   {
-    $product->update($request->all());
+    $request->validate([
+      'nombre' => 'required',
+      'descripcion' => 'required',
+      'precio' => 'required',
+      'id_categoria' => 'required',
+      'imagen' => 'nullable|image|max:2048',
+    ]);
+
+    $data = $request->except('imagen');
+
+    // Handle new uploaded image
+    if ($request->hasFile('imagen') && $request->file('imagen')->isValid()) {
+      // delete old image if exists
+      if ($product->imagen) {
+        Storage::disk('public')->delete($product->imagen);
+      }
+      $path = $request->file('imagen')->store('products', 'public');
+      $data['imagen'] = $path;
+    }
+
+    $product->update($data);
+
     return redirect()->route('product.index')->with('status', 'Producto actualizado con éxito');
   }
 
