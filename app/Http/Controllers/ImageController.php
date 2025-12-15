@@ -56,7 +56,7 @@ class ImageController extends Controller
   {
     $client = new Client();
     $payload = [
-      "model" => "google/gemma-3-4b",
+      "model" => "qwen/qwen3-vl-4b",
       "messages" => [
         [
           "role" => "user",
@@ -70,13 +70,13 @@ class ImageController extends Controller
           ]
         ]
       ],
-      "response_format" => [
-        "type" => "json_schema",
-        "json_schema" => [
-          "name" => "Product Information",
-          "schema" => $this->structured_output
-        ]
-      ],
+      // "response_format" => [
+      //   "type" => "json_schema",
+      //   "json_schema" => [
+      //     "name" => "Product Information",
+      //     "schema" => $this->structured_output
+      //   ]
+      // ],
       "temperature" => 0.1,
       "stream" => false,
     ];
